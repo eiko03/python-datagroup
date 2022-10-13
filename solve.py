@@ -25,6 +25,7 @@ with open(result_csv_file, 'w') as file:
     dw.writeheader()
 
 for filename in data_filenames:
+    print(f"processing file: {filename}")
     dataframe = pandas.read_csv(filename)
     # range_frame = pandas.read_csv(range_file)
     # change to datetime from str
@@ -47,6 +48,7 @@ final_csv_frame = pandas.concat(res_frame)
 final_csv_frame = final_csv_frame.groupby('time').mean().reset_index(level=-1)
 
 # result payload generate
+print("building json data")
 for row in final_csv_frame.iterrows():
     single_payload = {
         "date": row[1].time,
@@ -59,10 +61,12 @@ for row in final_csv_frame.iterrows():
     result_json_payload.append(single_payload)
 
 # generating csv result file
+print(f"creating csv result at {result_csv_file}")
 final_csv_frame.to_csv(result_csv_file, encoding='utf-8')
 
 # generating json result file
+print(f"creating csv result at {result_json_file}")
 with open(result_json_file, 'w') as out_file:
     json.dump(result_json_payload, out_file, sort_keys=True, indent=4, ensure_ascii=False)
 
-print("json and csv file created in Sample Folder")
+print("results created")
