@@ -39,11 +39,13 @@ for filename in data_filenames:
     time_and_mean = samp[[lister[-1]] + lister[1:4]]
     # drop mean index
     time_and_mean = time_and_mean.reset_index(drop=True)
-    # appending different file dataframes into sinbgle frame
+    # appending different file dataframes into single frame
     res_frame.append(time_and_mean)
 
-# final ready csv dataframe
+# concat all files data to final dataframe and unique date
 final_csv_frame = pandas.concat(res_frame)
+final_csv_frame = final_csv_frame.groupby('time').mean().reset_index(level=-1)
+
 # result payload generate
 for row in final_csv_frame.iterrows():
     single_payload = {
