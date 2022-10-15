@@ -53,9 +53,9 @@ for row in final_csv_frame.iterrows():
     single_payload = {
         "date": row[1].time,
         "mean": {
-            "x_axis": row[1].x_axis,
-            "y_axis": row[1].y_axis,
-            "z_axis": row[1].z_axis
+            "x_axis": "{:.2f}".format(row[1].x_axis),
+            "y_axis": "{:.2f}".format(row[1].y_axis),
+            "z_axis": "{:.2f}".format(row[1].z_axis)
         }
     }
     result_json_payload.append(single_payload)
